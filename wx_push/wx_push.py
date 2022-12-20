@@ -1,5 +1,5 @@
-# 企业微信消息推送
-# AID CID SECRET SENDKEY 从企业微信查看
+# Push info to wx
+# AID CID SECRET SENDKEY 
 #
 from requests_toolbelt import MultipartEncoder
 import json
@@ -8,22 +8,22 @@ import requests
 
 class wx_push(object):
 
-    CID = "wwf374186257aa440e"
-    AID = "1000003"
-    SECRET = "-We5QhnTDMRvPfM0oJKqIfqZQL0lpOalhAKIwv5hAT8"
-    sendkey = "061218Cancer*"
+    CID = your_CID
+    AID = your_AID
+    SECRET = your_SECRET
+    sendkey = your_sendkey
 
     def decide_push_application(via):
-        # 决定推送小程序
+        # decide which app to be sent with
         if via == 'rwth':
-            wx_push.AID = "1000003"
-            wx_push.SECRET = "-We5QhnTDMRvPfM0oJKqIfqZQL0lpOalhAKIwv5hAT8"
+            wx_push.AID = your_AID
+            wx_push.SECRET = your_SECRET
         elif via == 'important':
-            wx_push.AID = "1000002"
-            wx_push.SECRET = "2VxW1rBLLFYo31IExa1AGT0sS7H6WUGdKeViJ09-XLs"
+            wx_push.AID = your_AID
+            wx_push.SECRET = your_SECRET
 
     def push_text(text, wecom_touid='@all'):
-        # 推送文本消息
+        # push text info
         get_token_url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={}&corpsecret={}'.format(
             wx_push.CID, wx_push.SECRET)
         response = requests.get(get_token_url).content
@@ -48,7 +48,7 @@ class wx_push(object):
             print ("Invalid access_token")
 
     def push_file(media_id, wecom_touid='@all'):
-        # 推送文件消息
+        # push file info
         get_token_url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={}&corpsecret={}'.format(
             wx_push.CID, wx_push.SECRET)
         response = requests.get(get_token_url).content
@@ -73,7 +73,7 @@ class wx_push(object):
             print ("Invalid access_token")
 
     def push_image(media_id, wecom_touid='@all'):
-        # 推送图片消息
+        # push pic info
         get_token_url = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={}&corpsecret={}'.format(
             wx_push.CID, wx_push.SECRET)
         response = requests.get(get_token_url).content
@@ -117,7 +117,6 @@ class wx_push(object):
         
 
     def Push(via, type, path="", name="", content=""):
-        # 推送函数
         wx_push.decide_push_application(via)
         if type == "text":
             if content == "":
@@ -147,7 +146,7 @@ class wx_push(object):
         else:
             return "Type entry error"
 
-#推送示例 路径为空表示在当前文件夹下
+#example
 """ 
 wx_push.Push("important","text",content="Hello")
 wx_push.Push("important","file",name="test.txt")
